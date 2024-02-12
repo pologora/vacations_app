@@ -1,0 +1,9 @@
+.container {
+  max-width: min(80%, 300px);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.resetLink {
+  text-align: right;
+}

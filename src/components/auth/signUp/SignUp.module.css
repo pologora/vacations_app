@@ -1,0 +1,4 @@
+.formContainer {
+  max-width: min(80%, 300px);
+  margin-inline: auto;
+}
