@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axiosInstance from '../setup/axiosInstance';
 import { TUser } from '../types/customTypes';
 
@@ -6,10 +7,7 @@ type LoginDataReturn = {
   data: TUser;
 };
 
-export const login = async (
-  email: string,
-  password: string
-): Promise<LoginDataReturn> => {
+export const login = async (email: string, password: string): Promise<LoginDataReturn> => {
   try {
     const url = `/users/login`;
     const body = { email, password };

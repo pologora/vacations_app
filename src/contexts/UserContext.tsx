@@ -51,7 +51,6 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     } else {
       Cookies.remove('user');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

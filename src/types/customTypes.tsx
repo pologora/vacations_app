@@ -29,9 +29,9 @@ export type TVacation = {
   employeeIs: string;
   type: string;
   duration: number;
-  created_at: Date;
-  startVacation: Date;
-  endVacation: Date;
+  created_at: string;
+  startVacation: string;
+  endVacation: string;
   name: string;
   surname: string;
 };

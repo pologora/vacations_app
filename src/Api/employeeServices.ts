@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axiosInstance from '../setup/axiosInstance';
 
 export const getEmployeeById = async (id: string) => {

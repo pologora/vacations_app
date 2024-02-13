@@ -34,20 +34,15 @@ export const SignIn = () => {
     >
       <div className={style.container}>
         <Form>
+          <FormInput autoComplete='email' label='E-mail' name='email' type='email' />
           <FormInput
-            label='E-mail'
-            type='email'
-            name='email'
-            autoComplete='email'
-          />
-          <FormInput
-            label='Hasło'
-            type='password'
-            name='password'
             autoComplete='current-password'
+            label='Hasło'
+            name='password'
+            type='password'
           />
-          <Link to={'/reset'} className={style.resetLink}>
-            <Typography variant='subtitle2' component='p'>
+          <Link className={style.resetLink} to={'/reset'}>
+            <Typography component='p' variant='subtitle2'>
               Forget password?
             </Typography>
           </Link>
@@ -55,7 +50,7 @@ export const SignIn = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <Button variant='contained' type='submit'>
+            <Button type='submit' variant='contained'>
               Zaloguj się
             </Button>
           )}

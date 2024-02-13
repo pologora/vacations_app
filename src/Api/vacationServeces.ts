@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axiosInstance from '../setup/axiosInstance';
 import { TVacation } from '../types/customTypes';
 
@@ -8,9 +9,9 @@ type AllVacationsReturn = {
 
 export const getAllVacationsByEmployeeId = async (
   id: string,
-  token: string
+  token: string,
 ): Promise<AllVacationsReturn> => {
-  const url = `/vacations?employeeId=${id}`;
+  const url = `/vacations?employeeId=${id}&type=Wypoczynkowy`;
   const headers = {
     Authorization: `Bearer ${token}`,
   };

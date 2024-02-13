@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axiosInstance from '../setup/axiosInstance';
 import { TUser, UserSignupData } from '../types/customTypes';
 
@@ -35,9 +36,7 @@ export const getUserByEmployeeId = async (id: string) => {
   }
 };
 
-export const createUser = async (
-  userData: UserSignupData
-): Promise<CreateUserDataReturn> => {
+export const createUser = async (userData: UserSignupData): Promise<CreateUserDataReturn> => {
   const url = `/users/signup`;
   try {
     const { data } = await axiosInstance.post(url, userData);

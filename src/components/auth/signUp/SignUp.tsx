@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useNavigate, useParams } from 'react-router-dom';
 import { getEmployeeById } from '../../../Api/employeeServices';
 import { useEffect, useState } from 'react';
@@ -19,6 +20,7 @@ export const SignUp = () => {
     try {
       setIsLoading(true);
       const { data } = await getUserByEmployeeId(id);
+      // eslint-disable-next-line no-magic-numbers
       if (data.length > 0) {
         const navigateToSignInTimeout = 1500;
         setError('Użytkownik już jest zarejestrowany');
@@ -75,9 +77,7 @@ export const SignUp = () => {
       <Typography>Imię: {employee?.name}</Typography>
       <Typography>Nazwisko: {employee?.surname}</Typography>
       <Typography>E-mail: {employee?.email}</Typography>
-      <div className={style.formContainer}>
-        {employee && <SignUpForm employee={employee} />}
-      </div>
+      <div className={style.formContainer}>{employee && <SignUpForm employee={employee} />}</div>
     </div>
   );
 };

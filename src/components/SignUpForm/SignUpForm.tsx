@@ -63,24 +63,19 @@ export const SignUpForm = ({ employee }: SignUpFormProps) => {
       }}
     >
       <Form className={style.container}>
+        <FormInput autoComplete='current-password' label='Hasło' name='password' type='password' />
         <FormInput
-          label='Hasło'
-          type='password'
-          name='password'
           autoComplete='current-password'
-        />
-        <FormInput
           label='Potwierdź hasło'
-          type='password'
           name='confirmPassword'
-          autoComplete='current-password'
+          type='password'
         />
         {isLoading ? (
           <Loading />
         ) : (
           <Button
-            variant='contained'
             type='submit'
+            variant='contained'
             sx={{
               marginTop: '2rem',
             }}
