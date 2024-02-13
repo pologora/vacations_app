@@ -11,7 +11,7 @@ export const getAllVacationsByEmployeeId = async (
   id: string,
   token: string,
 ): Promise<AllVacationsReturn> => {
-  const url = `/vacations?employeeId=${id}&type=Wypoczynkowy`;
+  const url = `/vacations?employeeId=${id}&thisYear=true`;
   const headers = {
     Authorization: `Bearer ${token}`,
   };

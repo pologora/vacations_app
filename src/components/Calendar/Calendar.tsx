@@ -1,28 +1,20 @@
-import { TVacation } from '../../types/customTypes';
+import { CalendarEvent } from '../../types/customTypes';
 import { OneMonth } from './OneMonth';
-
-const months = [
-  'Styczeń',
-  'Luty',
-  'Marzec',
-  'Kwiecień',
-  'Maj',
-  'Czerwiec',
-  'Lipiec',
-  'Sierpień',
-  'Wrzesień',
-  'Październik',
-  'Listopad',
-  'Grudzień',
-];
+import style from './Calendar.module.css';
+import { months } from '../../setup/constants';
 
 type CalendarProps = {
-  data: TVacation[];
+  calendarEventsList: CalendarEvent[];
 };
 
-export const Calendar = ({ data }: CalendarProps) => {
+export const Calendar = ({ calendarEventsList }: CalendarProps) => {
   const renderedMonths = months.map((month, index) => (
-    <OneMonth key={month} monthIndex={index} title={month} />
+    <OneMonth
+      key={month}
+      calendarEventsList={calendarEventsList}
+      monthIndex={index}
+      title={month}
+    />
   ));
-  return <div>{renderedMonths}</div>;
+  return <div className={style.calendarsListContainer}>{calendarEventsList && renderedMonths}</div>;
 };

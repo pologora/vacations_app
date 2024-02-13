@@ -61,7 +61,6 @@ export const SignUp = () => {
       checkIfUserAlreadyExist(employeeId);
       getEmployee(employeeId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [employeeId]);
 
   if (isLoading) {

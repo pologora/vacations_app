@@ -1,50 +1,58 @@
-import { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import './customDatePickerStyles.css';
-import { pl } from 'date-fns/locale';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import style from './Calendar.module.css';
+import { CalendarEvent } from '../../types/customTypes';
 
 type OneMonthProps = {
   title: string;
   monthIndex: number;
+  calendarEventsList: CalendarEvent[];
 };
 
-const firstDayOfWeek = 0;
-const lastDayOfWeek = 6;
-
-const isWeekend = (date: Date) => {
-  const day = date.getDay();
-  return day === firstDayOfWeek || day === lastDayOfWeek;
-};
-
-const weekendClass = (date: Date) => (isWeekend(date) ? 'weekend' : '');
-
-export const OneMonth = ({ title, monthIndex }: OneMonthProps) => {
+export const OneMonth = ({ monthIndex, calendarEventsList }: OneMonthProps) => {
   const today = new Date();
-  const thisYear = today.getUTCFullYear();
-  const startOfTheMonthDay = 1;
-  const [startDate, setStartDate] = useState<Date | null>(
-    new Date(thisYear, monthIndex, startOfTheMonthDay),
-  );
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const thisYear = today.getFullYear();
 
-  const onChange = (dates: [Date, Date]) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
+  const firstDayOfMonth = 1;
+
+  const desiredMonthDate = new Date(thisYear, monthIndex, firstDayOfMonth);
+
+  const dayCellContent = ({ date, dayNumberText }: { date: Date; dayNumberText: number }) => {
+    const firstDayOfWeek = 0;
+    const lastDayOfWeek = 6;
+
+    const day = date.getDay();
+    if (day === firstDayOfWeek || day === lastDayOfWeek) {
+      return <div style={{ color: 'red' }}>{dayNumberText}</div>;
+    }
+    return dayNumberText;
   };
 
+  const handleEventClick = () => {};
+
   return (
-    <DatePicker
-      inline
-      selectsRange
-      dayClassName={weekendClass}
-      disabled={true}
-      endDate={endDate}
-      locale={pl}
-      selected={startDate}
-      startDate={startDate}
-      onChange={onChange}
-    />
+    <div className={style.calendarContainer}>
+      <FullCalendar
+        eventResizableFromStart
+        selectable
+        contentHeight='auto'
+        dayCellContent={dayCellContent}
+        editable={false}
+        eventClick={handleEventClick}
+        events={calendarEventsList}
+        firstDay={1}
+        headerToolbar={{ left: '', right: '', center: 'title' }}
+        initialDate={desiredMonthDate}
+        initialView='dayGridMonth'
+        locale='pl'
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        showNonCurrentDates={false}
+        buttonText={{
+          today: 'dziś',
+        }}
+      />
+    </div>
   );
 };

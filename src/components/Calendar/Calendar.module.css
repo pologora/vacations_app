@@ -1,0 +1,12 @@
+.calendarContainer {
+  width: min(400px, 90%);
+  margin-inline: auto;
+  border: 1px solid black;
+  margin-block: 2rem;
+}
+
+.calendarsListContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}

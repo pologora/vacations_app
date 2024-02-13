@@ -17,13 +17,17 @@ import { useNavigate } from 'react-router-dom';
 import { Logo } from '../Logo/Logo';
 import { blue } from '@mui/material/colors';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = [
+  { title: 'Główna', path: '/' },
+  { title: 'Wnioski', path: '/proposals' },
+];
 const settings = [
   { path: '/account', title: 'Konto' },
   { path: '', title: 'Wyloguj się' },
 ];
 
 type SettingsItem = (typeof settings)[number];
+type NavPageItem = (typeof pages)[number];
 
 const ResponsiveAppBar = () => {
   const { user, signOut } = useUserContext();
@@ -54,6 +58,11 @@ const ResponsiveAppBar = () => {
     } else {
       navigate(setting.path);
     }
+  };
+
+  const handleNavMenuClick = (page: NavPageItem) => {
+    handleCloseNavMenu();
+    navigate(page.path);
   };
 
   const firstArrayElementIndex = 0;
@@ -103,8 +112,8 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseNavMenu}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>{page}</Typography>
+                <MenuItem key={page.title} onClick={() => handleNavMenuClick(page)}>
+                  <Typography textAlign='center'>{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -119,11 +128,11 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.title}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                onClick={handleCloseNavMenu}
+                onClick={() => handleNavMenuClick(page)}
               >
-                {page}
+                {page.title}
               </Button>
             ))}
           </Box>

@@ -8,6 +8,7 @@ import { AppLayout } from './components/AppLayout.tsx/AppLayout';
 import { ProtectedRoute } from './components/ProtectedRoute.tsx/ProtectedRoute';
 import { Account } from './components/Account/Account';
 import { CssBaseline } from '@mui/material';
+import { ProposalVacations } from './components/ProposalVacations/ProposalVacations';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         >
           <Route element={<Home />} path='/' />
           <Route element={<Account />} path='/account' />
+          <Route element={<ProposalVacations />} path='/proposals' />
         </Route>
         <Route element={<SignUp />} path='/signup/:employeeId' />
         <Route element={<SignIn />} path='/signin' />

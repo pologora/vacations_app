@@ -1,0 +1,9 @@
+.container {
+  margin-top: 2rem;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
