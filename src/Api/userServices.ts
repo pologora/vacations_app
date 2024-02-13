@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { TUser, UserCreationType } from '../types/customTypes';
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+import axiosInstance from '../setup/axiosInstance';
+import { TUser, UserSignupData } from '../types/customTypes';
 
 type CreateUserDataReturn = {
   status: string;
@@ -15,9 +14,9 @@ type GetUserDataReturn = {
 };
 
 export const getUser = async (id: string): Promise<GetUserDataReturn> => {
-  const url = `${BASE_URL}/users/${id}`;
+  const url = `/users/${id}`;
   try {
-    const { data } = await axios.get(url);
+    const { data } = await axiosInstance.get(url);
     return data;
   } catch (error) {
     console.log(error);
@@ -26,9 +25,9 @@ export const getUser = async (id: string): Promise<GetUserDataReturn> => {
 };
 
 export const getUserByEmployeeId = async (id: string) => {
-  const url = `${BASE_URL}/users?employeeId=${id}`;
+  const url = `/users?employeeId=${id}`;
   try {
-    const { data } = await axios.get(url);
+    const { data } = await axiosInstance.get(url);
     return data;
   } catch (error) {
     console.log(error);
@@ -37,11 +36,11 @@ export const getUserByEmployeeId = async (id: string) => {
 };
 
 export const createUser = async (
-  userData: UserCreationType
+  userData: UserSignupData
 ): Promise<CreateUserDataReturn> => {
-  const url = `${BASE_URL}/users/signup`;
+  const url = `/users/signup`;
   try {
-    const { data } = await axios.post(url, userData);
+    const { data } = await axiosInstance.post(url, userData);
     return data;
   } catch (error) {
     console.log(error);

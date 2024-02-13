@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { getEmployeeById } from '../../../Api/employeeServices';
 import { useEffect, useState } from 'react';
-import { EmployeeType } from '../../../types/customTypes';
+import { TEmployee } from '../../../types/customTypes';
 import { SignUpForm } from '../../SignUpForm/SignUpForm';
 import { Loading } from '../../Loading/Loading';
 import { getUserByEmployeeId } from '../../../Api/userServices';
@@ -10,7 +10,7 @@ import { Typography } from '@mui/material';
 
 export const SignUp = () => {
   const { employeeId } = useParams();
-  const [employee, setEmployee] = useState<EmployeeType | null>(null);
+  const [employee, setEmployee] = useState<TEmployee | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -38,6 +38,7 @@ export const SignUp = () => {
       setIsLoading(false);
     }
   };
+
   const getEmployee = async (id: string) => {
     try {
       setIsLoading(true);
@@ -58,6 +59,7 @@ export const SignUp = () => {
       checkIfUserAlreadyExist(employeeId);
       getEmployee(employeeId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [employeeId]);
 
   if (isLoading) {

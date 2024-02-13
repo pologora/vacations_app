@@ -1,11 +1,10 @@
-import axios from 'axios';
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+import axiosInstance from '../setup/axiosInstance';
 
 export const getEmployeeById = async (id: string) => {
-  const url = `${BASE_URL}/employees/${id}`;
+  const url = `/employees/${id}`;
 
   try {
-    const { data } = await axios.get(url);
+    const { data } = await axiosInstance.get(url);
 
     return data;
   } catch (error) {

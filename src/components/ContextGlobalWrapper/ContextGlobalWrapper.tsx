@@ -1,5 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
-import { UserContextProvider } from '../../contexts/UserContext';
+import { UserContextProvider } from '../../contexts/userContext';
 
 type ContextGlobalWrapperProps = {
   children: React.ReactNode;

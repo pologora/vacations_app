@@ -1,12 +1,12 @@
 import { Form, Formik } from 'formik';
 import singUpValidationSchema from '../../yupValidationSchemas/userValidationSchema';
-import { EmployeeType, UserCreationType } from '../../types/customTypes';
+import { TEmployee, UserSignupData } from '../../types/customTypes';
 import FormInput from '../ui/FormElements/FormInput';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 import { createUser, getUser } from '../../Api/userServices';
 import { Loading } from '../Loading/Loading';
-import { useUserContext } from '../../contexts/UserContext';
+import { useUserContext } from '../../contexts/userContext';
 import { useNavigate } from 'react-router-dom';
 import style from './SignUpForm.module.css';
 
@@ -16,7 +16,7 @@ const initialValues = {
 };
 
 type SignUpFormProps = {
-  employee: EmployeeType;
+  employee: TEmployee;
 };
 
 export const SignUpForm = ({ employee }: SignUpFormProps) => {
@@ -25,7 +25,7 @@ export const SignUpForm = ({ employee }: SignUpFormProps) => {
   const { signIn } = useUserContext();
   const navigate = useNavigate();
 
-  const createNewUser = async (newUser: UserCreationType) => {
+  const createNewUser = async (newUser: UserSignupData) => {
     try {
       setIsLoading(true);
       const data = await createUser(newUser);

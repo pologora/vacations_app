@@ -1,7 +1,5 @@
-import axios from 'axios';
+import axiosInstance from '../setup/axiosInstance';
 import { TUser } from '../types/customTypes';
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 type LoginDataReturn = {
   status: string;
@@ -13,9 +11,9 @@ export const login = async (
   password: string
 ): Promise<LoginDataReturn> => {
   try {
-    const url = `${BASE_URL}/users/login`;
+    const url = `/users/login`;
     const body = { email, password };
-    const { data } = await axios.post(url, body);
+    const { data } = await axiosInstance.post(url, body);
     return data;
   } catch (error) {
     console.log(error);

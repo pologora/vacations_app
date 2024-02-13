@@ -7,7 +7,7 @@ import { useState } from 'react';
 import style from './SignIn.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../../Api/authServeces';
-import { useUserContext } from '../../../contexts/UserContext';
+import { useUserContext } from '../../../contexts/userContext';
 
 const initialValues = {
   email: '',

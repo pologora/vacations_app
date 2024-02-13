@@ -8,7 +8,7 @@ export type TUser = {
   token: string;
 };
 
-export type UserCreationType = {
+export type UserSignupData = {
   name: string;
   surname: string;
   employeeId: string;
@@ -17,9 +17,21 @@ export type UserCreationType = {
   confirmPassword: string;
 };
 
-export type EmployeeType = {
+export type TEmployee = {
   name: string;
   surname: string;
   email: string;
   employeeId: string;
+};
+
+export type TVacation = {
+  _id: string;
+  employeeIs: string;
+  type: string;
+  duration: number;
+  created_at: Date;
+  startVacation: Date;
+  endVacation: Date;
+  name: string;
+  surname: string;
 };
