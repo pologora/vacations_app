@@ -1,9 +1,17 @@
 .container {
-  max-width: min(80%, 300px);
-  margin-inline: auto;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  border: 1px solid red;
 }
 
 .resetLink {
   text-align: right;
+}
+
+.form {
+  max-width: min(80%, 300px);
 }

@@ -7,20 +7,11 @@ type AllVacationsReturn = {
   data: TVacation[];
 };
 
-export const getAllVacationsByEmployeeId = async (
-  id: string,
-  token: string,
-): Promise<AllVacationsReturn> => {
+export const getAllVacationsByEmployeeId = async (id: string): Promise<AllVacationsReturn> => {
   const url = `/vacations?employeeId=${id}&thisYear=true`;
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  const AxiosRequestConfig = {
-    headers,
-  };
 
   try {
-    const { data } = await axiosInstance.get(url, AxiosRequestConfig);
+    const { data } = await axiosInstance.get(url);
     return data;
   } catch (error) {
     console.log(error);

@@ -25,7 +25,7 @@ export const SignIn = () => {
       onSubmit={async ({ email, password }) => {
         setIsLoading(true);
         const { data } = await login(email, password);
-        if (data.token) {
+        if (data) {
           signIn(data);
           navigate('/');
         }
@@ -33,7 +33,7 @@ export const SignIn = () => {
       }}
     >
       <div className={style.container}>
-        <Form>
+        <Form className={style.form}>
           <FormInput autoComplete='email' label='E-mail' name='email' type='email' />
           <FormInput
             autoComplete='current-password'
@@ -41,16 +41,16 @@ export const SignIn = () => {
             name='password'
             type='password'
           />
-          <Link className={style.resetLink} to={'/reset'}>
+          <Link className={style.resetLink} to={'/forgotPassword'}>
             <Typography component='p' variant='subtitle2'>
-              Forget password?
+              Zapomniałeś hasło?
             </Typography>
           </Link>
 
           {isLoading ? (
             <Loading />
           ) : (
-            <Button type='submit' variant='contained'>
+            <Button sx={{ marginTop: '2rem' }} type='submit' variant='contained'>
               Zaloguj się
             </Button>
           )}

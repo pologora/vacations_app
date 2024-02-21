@@ -9,21 +9,15 @@ import type { CalendarEvent } from '../../types/customTypes';
 import { createCalendarVacationsEvents } from '../../helpers/createCalendarVacationsEvents';
 
 export const Home = () => {
-  const { user, checkExpired } = useUserContext();
+  const { user } = useUserContext();
   const [eventsList, setEventsList] = useState<CalendarEvent[]>([]);
 
   const { data, isLoading, isError, error } = useQuery({
     queryFn: () => {
-      if (user) return getAllVacationsByEmployeeId(user.employeeId, user.token);
+      if (user) return getAllVacationsByEmployeeId(user.employeeId);
     },
     queryKey: ['vacations', user!.employeeId],
   });
-
-  useEffect(() => {
-    if (user) {
-      checkExpired();
-    }
-  }, [user, checkExpired, data]);
 
   useEffect(() => {
     if (data) {
