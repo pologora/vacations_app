@@ -5,7 +5,6 @@ export type TUser = {
   role: string;
   employeeId: string;
   email: string;
-  token: string;
 };
 
 export type UserSignupData = {
@@ -46,6 +45,8 @@ export type CalendarEvent = {
   id?: string;
 };
 
+export type vacationsProposalsStatusTypes = 'pending' | 'approved' | 'rejected';
+
 export type TProposal = {
   _id: string;
   employeeId: string;
@@ -56,5 +57,6 @@ export type TProposal = {
   endVacation: string;
   name: string;
   surname: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: vacationsProposalsStatusTypes;
+  description?: string;
 };

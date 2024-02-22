@@ -1,82 +1,80 @@
 /* eslint-disable no-console */
 import { useNavigate, useParams } from 'react-router-dom';
-import { getEmployeeById } from '../../../Api/employeeServices';
-import { useEffect, useState } from 'react';
-import { TEmployee } from '../../../types/customTypes';
-import { SignUpForm } from '../../SignUpForm/SignUpForm';
+import { useState } from 'react';
 import { Loading } from '../../Loading/Loading';
-import { getUserByEmployeeId } from '../../../Api/userServices';
 import style from './SignUp.module.css';
-import { Typography } from '@mui/material';
+import { Form, Formik } from 'formik';
+import FormInput from '../../ui/FormElements/FormInput';
+import sinupValidationSchema, {
+  SignUpFormValidation,
+} from '../../../yupValidationSchemas/signUpValidationSchema';
+import { Button } from '@mui/material';
+import { signUp } from '../../../Api/authServices';
+
+const initialValues: SignUpFormValidation = { password: '', confirmPassword: '' };
 
 export const SignUp = () => {
-  const { employeeId } = useParams();
-  const [employee, setEmployee] = useState<TEmployee | null>(null);
+  const { token } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const checkIfUserAlreadyExist = async (id: string) => {
+  const navigateToLoginPage = () => navigate('/signin');
+
+  const registerNewUser = async (password: string, confirmPassword: string, token: string) => {
     try {
       setIsLoading(true);
-      const { data } = await getUserByEmployeeId(id);
-      // eslint-disable-next-line no-magic-numbers
-      if (data.length > 0) {
-        const navigateToSignInTimeout = 1500;
-        setError('Użytkownik już jest zarejestrowany');
-        setTimeout(() => {
-          navigate('/signin');
-        }, navigateToSignInTimeout);
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log(error);
-        setError(error.message);
-      } else {
-        console.error('An unknown error occurred:', error);
-        setError('An unknown error occurred');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getEmployee = async (id: string) => {
-    try {
-      setIsLoading(true);
-      const { data } = await getEmployeeById(id);
-      const { name, surname, _id: employeeId, email } = data;
-
-      setEmployee({ name, surname, employeeId, email });
+      await signUp(token, password, confirmPassword);
+      const timeout = 1500;
+      setTimeout(() => {
+        navigateToLoginPage();
+      }, timeout);
     } catch (error) {
-      setError('Nie udało się pobrać dane, spróbuj później');
-      console.log(error);
+      // @ts-expect-error axios error response message
+      const { message } = error.response.data;
+      if (message) {
+        setError(message);
+      } else {
+        setError('Coś poszło nie tak. Skontaktuj się z administratorem');
+      }
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (employeeId) {
-      checkIfUserAlreadyExist(employeeId);
-      getEmployee(employeeId);
-    }
-  }, [employeeId]);
 
   if (isLoading) {
     return <Loading />;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className={style.error}>{error}</div>;
   }
 
   return (
-    <div>
-      <Typography>Imię: {employee?.name}</Typography>
-      <Typography>Nazwisko: {employee?.surname}</Typography>
-      <Typography>E-mail: {employee?.email}</Typography>
-      <div className={style.formContainer}>{employee && <SignUpForm employee={employee} />}</div>
+    <div className={style.pageContainer}>
+      <div className={style.formContainer}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={sinupValidationSchema}
+          onSubmit={async (values) => {
+            if (token) {
+              await registerNewUser(values.password, values.confirmPassword, token);
+            } else {
+              setError('Ten link jest nieprawidłowy');
+            }
+          }}
+        >
+          <Form>
+            <FormInput label='Podaj hasło' name='password' type='password' />
+            <FormInput label='Potwierdź hasło' name='confirmPassword' type='password' />
+            <div className={style.buttonContainer}>
+              <Button type='submit' variant='contained'>
+                Zarejestruj się
+              </Button>
+            </div>
+          </Form>
+        </Formik>
+      </div>
     </div>
   );
 };

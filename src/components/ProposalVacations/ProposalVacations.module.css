@@ -1,0 +1,58 @@
+.proposalContainer {
+  margin-inline: auto;
+  max-width: min(90%, 400px);
+}
+
+.datePicker {
+  margin-block: 2rem;
+  text-align: center;
+}
+
+.buttonsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.paginationContainer {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.proposalsListItem {
+  border-bottom: 1px solid black;
+}
+
+.itemText {
+  /* border: 1px solid black; */
+  /* max-width: 40%; */
+}
+
+.proposalInfoButtonsContainer {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin-top: 3rem;
+  margin-inline: auto;
+}
+
+.property {
+  display: flex;
+  margin-top: 2rem;
+  padding-top: 0.5rem;
+}
+
+.propertyValue {
+  width: 50%;
+  text-align: left;
+  font-weight: 800;
+}
+
+.propertyLabel {
+  text-align: left;
+  align-self: flex-start;
+  width: 50%;
+}

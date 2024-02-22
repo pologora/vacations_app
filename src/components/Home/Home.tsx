@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllVacationsByEmployeeId } from '../../Api/vacationServeces';
+import { getAllVacationsByEmployeeId } from '../../Api/vacationServices';
 import { useUserContext } from '../../contexts/userContext';
 import style from './Home.module.css';
 import { useQuery } from '@tanstack/react-query';
@@ -9,7 +9,7 @@ import type { CalendarEvent } from '../../types/customTypes';
 import { createCalendarVacationsEvents } from '../../helpers/createCalendarVacationsEvents';
 
 export const Home = () => {
-  const { user } = useUserContext();
+  const { user, signOut } = useUserContext();
   const [eventsList, setEventsList] = useState<CalendarEvent[]>([]);
 
   const { data, isLoading, isError, error } = useQuery({
@@ -22,7 +22,6 @@ export const Home = () => {
   useEffect(() => {
     if (data) {
       const events = createCalendarVacationsEvents(data.data);
-
       setEventsList(events);
     }
   }, [data]);
@@ -32,6 +31,11 @@ export const Home = () => {
   }
 
   if (isError) {
+    const timeout = 2000;
+    setTimeout(() => {
+      signOut();
+    }, timeout);
+
     return <div>{error.message}</div>;
   }
 

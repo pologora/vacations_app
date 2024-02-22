@@ -18,3 +18,14 @@ export const login = async (email: string, password: string): Promise<LoginDataR
     throw error;
   }
 };
+
+export const signUp = async (token: string, password: string, confirmPassword: string) => {
+  try {
+    const url = `/users/registerMe/${token}`;
+    const { data } = await axiosInstance.patch(url, { password, confirmPassword });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

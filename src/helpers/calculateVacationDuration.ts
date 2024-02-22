@@ -1,8 +1,11 @@
 /* eslint-disable no-magic-numbers */
 import calculateHolidays from './calculateHolidays';
 
-function calculateDuration(startDate: Date, endDate: Date) {
+function calculateVacationDuration(startDate: Date | null, endDate: Date | null) {
   let duration = 0;
+  if (!startDate || !endDate) {
+    return 0;
+  }
   const currentDate = new Date(startDate);
   const year = currentDate.getFullYear();
   const holidays = calculateHolidays(year);
@@ -24,4 +27,4 @@ function calculateDuration(startDate: Date, endDate: Date) {
   return duration;
 }
 
-export default calculateDuration;
+export default calculateVacationDuration;

@@ -19,7 +19,8 @@ import { blue } from '@mui/material/colors';
 
 const pages = [
   { title: 'Główna', path: '/' },
-  { title: 'Wnioski', path: '/proposals' },
+  { title: 'Moje wnioski', path: '/proposals' },
+  { title: 'Złóż wniosek', path: '/proposals/create' },
 ];
 const settings = [
   { path: '/account', title: 'Konto' },

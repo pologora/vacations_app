@@ -1,4 +1,23 @@
+.pageContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid red;
+}
+
 .formContainer {
   max-width: min(80%, 300px);
-  margin-inline: auto;
+}
+
+.buttonContainer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  margin-top: 4rem;
+  text-align: center;
 }
