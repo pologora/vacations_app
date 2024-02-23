@@ -26,9 +26,18 @@ export const ProposalVacations = () => {
 
   useEffect(() => {
     if (data?.data) {
-      saveProposals(data?.data);
+      saveProposals(data.data);
     }
   }, [data]);
+
+  const sumPendingProposalsDays = data?.data.reduce((acc, item) => {
+    if (item.status === 'pending') {
+      return acc + item.duration;
+    }
+
+    return acc;
+    // eslint-disable-next-line no-magic-numbers
+  }, 0);
 
   const itemsPerPage = 25;
   const minPage = 1;
@@ -49,6 +58,7 @@ export const ProposalVacations = () => {
   return (
     <div>
       <h2 className={style.proposalsPageTitle}>Złożone wnioski</h2>
+      <p>Razem dni: {sumPendingProposalsDays}</p>
       <ProposalsList proposalsData={data!.data} />
       <div className={style.paginationContainer}>
         {pagesCount > minPage && (

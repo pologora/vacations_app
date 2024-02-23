@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { UserContextProvider } from '../../contexts/userContext';
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ProposalsContextProvider } from '../../contexts/proposalsContext';
+import NotificationContextProvider from '../../contexts/notificationContext';
 
 type ContextGlobalWrapperProps = {
   children: React.ReactNode;
@@ -17,7 +18,9 @@ export const ContextGlobalWrapper = ({ children }: ContextGlobalWrapperProps) =>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <ProposalsContextProvider>
-            <UserContextProvider>{children}</UserContextProvider>
+            <NotificationContextProvider>
+              <UserContextProvider>{children}</UserContextProvider>
+            </NotificationContextProvider>
           </ProposalsContextProvider>
         </QueryClientProvider>
       </BrowserRouter>

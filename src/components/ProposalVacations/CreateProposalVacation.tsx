@@ -36,6 +36,7 @@ const CreateProposalVacation = () => {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const navigator = useNavigate();
+
   if (!user) {
     navigator('/signin');
   }
@@ -57,27 +58,31 @@ const CreateProposalVacation = () => {
     navigate(-1);
   };
 
+  const createProposal = async (values: ProposalsFormValues) => {
+    const { endVacation, startVacation } = values;
+    const endVacationConverted = convertTimePickerDateToIsoString(endVacation);
+    const startVacationConverted = convertTimePickerDateToIsoString(startVacation);
+
+    const dataForPostRequest = {
+      ...values,
+      endVacation: endVacationConverted,
+      startVacation: startVacationConverted,
+    };
+
+    const result = await createVacationProposal(dataForPostRequest);
+    return result;
+  };
+
   return (
     <div>
       <Formik
         initialValues={initialValues}
         validationSchema={proposalValidationSchema}
         onSubmit={async (values, helpers) => {
-          const { endVacation, startVacation } = values;
-          const endVacationConverted = convertTimePickerDateToIsoString(endVacation);
-          const startVacationConverted = convertTimePickerDateToIsoString(startVacation);
-
-          const dataForPostRequest = {
-            ...values,
-            endVacation: endVacationConverted,
-            startVacation: startVacationConverted,
-          };
-
-          const result = await createVacationProposal(dataForPostRequest);
+          const result = await createProposal(values);
           if (result.status === 'success') {
             console.log(result, 'create alert');
           }
-
           helpers.resetForm();
         }}
       >

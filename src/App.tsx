@@ -11,6 +11,7 @@ import { CssBaseline } from '@mui/material';
 import { ProposalVacations } from './components/ProposalVacations/ProposalVacations';
 import CreateProposalVacation from './components/ProposalVacations/CreateProposalVacation';
 import { ProposalInfo } from './components/ProposalVacations/ProposalInfo';
+import { ForgotPassword } from './components/ForgotPassword/ForgotPassword';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         </Route>
         <Route element={<SignUp />} path='/signup/:token' />
         <Route element={<SignIn />} path='/signin' />
+        <Route element={<ForgotPassword />} path='/forgotPassword' />
         <Route element={<NotFound />} path='*' />
       </Routes>
     </>

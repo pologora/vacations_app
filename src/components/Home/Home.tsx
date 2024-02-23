@@ -7,39 +7,74 @@ import { Loading } from '../Loading/Loading';
 import { Calendar } from '../Calendar/Calendar';
 import type { CalendarEvent } from '../../types/customTypes';
 import { createCalendarVacationsEvents } from '../../helpers/createCalendarVacationsEvents';
+import { getAllProposalsByEmployeeId } from '../../Api/proposalServices';
 
 export const Home = () => {
   const { user, signOut } = useUserContext();
   const [eventsList, setEventsList] = useState<CalendarEvent[]>([]);
 
-  const { data, isLoading, isError, error } = useQuery({
+  const {
+    data: vacationsData,
+    isLoading: vacationsIsLoading,
+    isError: vacationsIsError,
+    error: vacationsError,
+  } = useQuery({
     queryFn: () => {
       if (user) return getAllVacationsByEmployeeId(user.employeeId);
     },
     queryKey: ['vacations', user!.employeeId],
   });
 
+  const {
+    data: proposalsData,
+    isLoading: proposalIsLoading,
+    isError: proposalIsError,
+    error: proposalError,
+  } = useQuery({
+    queryFn: () => {
+      if (user) return getAllProposalsByEmployeeId(user.employeeId, undefined, true);
+    },
+    queryKey: ['proposals', user!.employeeId],
+  });
+
   useEffect(() => {
-    if (data) {
-      const events = createCalendarVacationsEvents(data.data);
+    if (vacationsData) {
+      const events = createCalendarVacationsEvents(vacationsData.data, proposalsData?.data);
       setEventsList(events);
     }
-  }, [data]);
+  }, [vacationsData]);
 
-  if (isLoading) {
+  if (vacationsIsLoading || proposalIsLoading) {
     return <Loading />;
   }
 
-  if (isError) {
+  if (vacationsIsError || proposalIsError) {
     const timeout = 2000;
     setTimeout(() => {
       signOut();
     }, timeout);
 
-    return <div>{error.message}</div>;
+    return <div>{vacationsError?.message || proposalError?.message}</div>;
   }
+  const allVacationsDuration = vacationsData?.data.reduce((acc, item) => {
+    if (item.type === 'Wypoczynkowy') {
+      return acc + item.duration;
+    }
+    return acc;
+    // eslint-disable-next-line no-magic-numbers
+  }, 0);
+
+  const allProposalsDuration = proposalsData?.data.reduce((acc, item) => {
+    if (item.type === 'Wypoczynkowy') {
+      return acc + item.duration;
+    }
+    return acc;
+    // eslint-disable-next-line no-magic-numbers
+  }, 0);
 
   return (
-    <div className={style.container}>{data && <Calendar calendarEventsList={eventsList} />}</div>
+    <div className={style.container}>
+      {vacationsData && <Calendar calendarEventsList={eventsList} />}
+    </div>
   );
 };

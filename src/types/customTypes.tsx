@@ -5,6 +5,7 @@ export type TUser = {
   role: string;
   employeeId: string;
   email: string;
+  vacationDaysPerYear: number;
 };
 
 export type UserSignupData = {

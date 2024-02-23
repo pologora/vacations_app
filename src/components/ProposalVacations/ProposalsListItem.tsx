@@ -31,6 +31,9 @@ export const ProposalsListItem = ({ proposalData }: ProposalsListItemProps) => {
     ? type
     : vacationsTypes.find((item) => item.label === type)?.short;
 
+  // eslint-disable-next-line no-magic-numbers
+  const daysDurationWord = duration === 1 ? 'dzień' : 'dni';
+
   return (
     <ListItem
       className={style.proposalsListItem}
@@ -52,7 +55,7 @@ export const ProposalsListItem = ({ proposalData }: ProposalsListItemProps) => {
         sx={{ color: color, width: '20%' }}
       />
       <ListItemText
-        secondary={`${duration} dni`}
+        secondary={`${duration} ${daysDurationWord}`}
         primary={
           isLargeScreen ? (
             <div>

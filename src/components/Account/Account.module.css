@@ -1,9 +1,32 @@
 .container {
   margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 1000px;
+  margin-inline: auto;
 }
 
 .buttonsContainer {
   display: flex;
   gap: 2rem;
   margin-top: 2rem;
+  width: 100%;
+}
+
+.changePasswordForm {
+  max-width: 300px;
+  text-align: right;
+  min-height: 362px;
+}
+
+.infoContainer {
+  width: 50%;
+}
+
+@media (max-width: 800px) {
+  .infoContainer {
+    width: 100%;
+  }
 }
