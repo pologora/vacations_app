@@ -32,7 +32,11 @@ export const Home = () => {
     error: proposalError,
   } = useQuery({
     queryFn: () => {
-      if (user) return getAllProposalsByEmployeeId(user.employeeId, undefined, true);
+      if (user) {
+        const id = user.employeeId;
+        const url = `/proposals?employeId=${id}&thisYear=true&status=pending`;
+        return getAllProposalsByEmployeeId(url);
+      }
     },
     queryKey: ['proposals', user!.employeeId],
   });
@@ -42,7 +46,7 @@ export const Home = () => {
       const events = createCalendarVacationsEvents(vacationsData.data, proposalsData?.data);
       setEventsList(events);
     }
-  }, [vacationsData]);
+  }, [vacationsData, proposalsData]);
 
   if (vacationsIsLoading || proposalIsLoading) {
     return <Loading />;

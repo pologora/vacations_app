@@ -16,13 +16,7 @@ type CreateVacationProposalReturn = {
   };
 };
 
-export const getAllProposalsByEmployeeId = async (
-  id: string,
-  page?: number,
-  thisYear?: boolean,
-): Promise<AllProposalsReturn> => {
-  const url = `/proposals?employeeId=${id}&page=${page}&thisYear=${thisYear}`;
-
+export const getAllProposalsByEmployeeId = async (url: string): Promise<AllProposalsReturn> => {
   try {
     const { data } = await axiosInstance.get(url);
     return data;
@@ -57,10 +51,10 @@ export const deleteVacationProposal = async (id: string) => {
   }
 };
 
-export const updateVacationProposal = async (id: string, data) => {
+export const updateVacationProposal = async (id: string, update) => {
   try {
     const url = `/proposals/${id}`;
-    const { data } = await axiosInstance.patch(url, data);
+    const { data } = await axiosInstance.patch(url, update);
     return data;
   } catch (error) {
     console.log(error);

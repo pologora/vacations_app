@@ -11,8 +11,6 @@ type LoginDataReturn = {
 export const login = async (email: string, password: string): Promise<LoginDataReturn> => {
   try {
     const url = `/users/login`;
-    console.log(url);
-
     const body = { email, password };
     const { data } = await axiosInstance.post(url, body);
     return data;

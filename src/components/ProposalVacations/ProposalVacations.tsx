@@ -11,14 +11,17 @@ import { useProposalsContext } from '../../contexts/proposalsContext';
 const startPage = 1;
 
 export const ProposalVacations = () => {
-  const { user } = useUserContext();
   const [page, setPage] = useState(startPage);
+  const { user } = useUserContext();
   const { saveProposals } = useProposalsContext();
 
   const { data, isLoading, isError, error } = useQuery({
     queryFn: () => {
       if (user) {
-        return getAllProposalsByEmployeeId(user.employeeId, page);
+        const id = user.employeeId;
+        const url = `/proposals?employeId=${id}&page=${page}`;
+
+        return getAllProposalsByEmployeeId(url);
       }
     },
     queryKey: ['proposals', user!.employeeId, page],

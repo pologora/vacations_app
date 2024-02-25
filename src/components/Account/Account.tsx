@@ -9,6 +9,8 @@ import changePasswordValidationSchema, {
 import { ProposalInfoProperty } from '../ProposalVacations/ProposalInfoProperty';
 import { useMutation } from '@tanstack/react-query';
 import { changePassword } from '../../Api/authServices';
+import { useNotificationContext } from '../../contexts/notificationContext';
+import { getAxiosErrorMessage } from '../../helpers/errors/axiosErrors';
 
 const initialValues: ChangePasswordFormValues = {
   currentPassword: '',
@@ -18,16 +20,24 @@ const initialValues: ChangePasswordFormValues = {
 
 export const Account = () => {
   const { user } = useUserContext();
+  const { handleChangeNotification } = useNotificationContext();
 
   const changePasswordMutation = useMutation({
     mutationFn: (values: ChangePasswordFormValues) => {
       return changePassword(values);
     },
-    onError: () => {
-      console.log('error');
+    onError: (error) => {
+      const message = getAxiosErrorMessage(error);
+      handleChangeNotification({
+        text: message,
+        severity: 'error',
+      });
     },
     onSuccess: () => {
-      console.log('success');
+      handleChangeNotification({
+        text: 'Hasło zostało zmienione',
+        severity: 'success',
+      });
     },
   });
 
@@ -86,7 +96,7 @@ export const Account = () => {
         </Form>
       </Formik>
       <div className={style.buttonsContainer}>
-        <Button color='error' variant='contained'>
+        <Button disabled color='error' variant='contained'>
           Usuń konto
         </Button>
       </div>

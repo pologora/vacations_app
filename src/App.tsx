@@ -12,11 +12,13 @@ import { ProposalVacations } from './components/ProposalVacations/ProposalVacati
 import CreateProposalVacation from './components/ProposalVacations/CreateProposalVacation';
 import { ProposalInfo } from './components/ProposalVacations/ProposalInfo';
 import { ForgotPassword } from './components/ForgotPassword/ForgotPassword';
+import { NotificationAlert } from './components/NotificationAlert/NotificationAlert';
 
 const App = () => {
   return (
     <>
       <CssBaseline />
+      <NotificationAlert />
       <Routes>
         <Route
           element={

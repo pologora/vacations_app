@@ -5,8 +5,10 @@ import { BackButtonWithIcon } from '../ui/Buttons/BackButtonWithIcon';
 import style from './ProposalVacations.module.css';
 import { ProposalInfoProperty } from './ProposalInfoProperty';
 import { getDayStringFromUtcFullDate, getProposalStatus } from './helpers/helplers';
+import { useNotificationContext } from '../../contexts/notificationContext';
 
 export const ProposalInfo = () => {
+  const { handleChangeNotification } = useNotificationContext();
   const { proposals } = useProposalsContext();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -24,6 +26,10 @@ export const ProposalInfo = () => {
       </div>
     );
   }
+
+  const handleEditClick = () => {
+    handleChangeNotification({ text: 'edytuj', severity: 'success', variant: 'filled' });
+  };
 
   const { color, fullTitle } = getProposalStatus(proposal?.status);
   const start = getDayStringFromUtcFullDate(proposal.startVacation);
@@ -50,7 +56,12 @@ export const ProposalInfo = () => {
         <Button color='error' disabled={!isDeletable} variant='contained'>
           Anuluj wniosek
         </Button>
-        <Button color='secondary' disabled={!isEditable} variant='outlined'>
+        <Button
+          color='secondary'
+          disabled={!isEditable}
+          variant='outlined'
+          onClick={handleEditClick}
+        >
           Edytuj
         </Button>
         <Button color='primary' variant='outlined' onClick={handleBackButtonClick}>

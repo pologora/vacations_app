@@ -44,7 +44,7 @@ export const ProposalsListItem = ({ proposalData }: ProposalsListItemProps) => {
           edge='end'
           onClick={handleSettingsClick}
         >
-          <SettingsIcon color='secondary' />
+          <SettingsIcon color={status === 'approved' ? 'disabled' : 'secondary'} />
         </IconButton>
       }
     >
@@ -56,6 +56,7 @@ export const ProposalsListItem = ({ proposalData }: ProposalsListItemProps) => {
       />
       <ListItemText
         secondary={`${duration} ${daysDurationWord}`}
+        sx={{ color: color }}
         primary={
           isLargeScreen ? (
             <div>

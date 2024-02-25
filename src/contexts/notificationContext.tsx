@@ -2,13 +2,11 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { getSafeContext } from './getSafeContext';
 
-type NotificationBgColor = string;
-
 type TNotification = {
   text: string;
-  severity: 'success' | 'info' | 'warning' | 'error';
-  variant: 'filled' | 'outlined';
-  hideDuration: number;
+  severity?: 'success' | 'info' | 'warning' | 'error';
+  variant?: 'filled' | 'outlined';
+  hideDuration?: number;
 };
 
 type NotificationContextProps = {
@@ -41,7 +39,7 @@ const NotificationContextProvider = ({ children }: NotificationContextProviderPr
     const {
       text,
       severity = 'success',
-      variant = 'outlined',
+      variant = 'filled',
       hideDuration = timeoutDuraton,
     } = options;
     setNotification({ text, severity, variant, hideDuration });
