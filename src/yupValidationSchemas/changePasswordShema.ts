@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const minQuantityCharsForPassword = 8;
 
 const schema = yup.object({
-  currentPassword: yup.string().required('Hasło jest wymagane').min(minQuantityCharsForPassword),
+  currentPassword: yup.string().required('Hasło jest wymagane'),
   password: yup
     .string()
     .required('Hasło jest wymagane')
