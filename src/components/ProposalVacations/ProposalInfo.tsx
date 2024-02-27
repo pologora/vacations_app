@@ -6,8 +6,14 @@ import style from './ProposalVacations.module.css';
 import { ProposalInfoProperty } from './ProposalInfoProperty';
 import { getDayStringFromUtcFullDate, getProposalStatus } from './helpers/helplers';
 import { useNotificationContext } from '../../contexts/notificationContext';
+import { useMutation } from '@tanstack/react-query';
+import { deleteVacationProposal } from '../../Api/proposalServices';
+import { TNotification } from '../../types/customTypes';
+import { useState } from 'react';
+import { BooleanAlert } from '../BooleanAlert/BooleanAlert';
 
 export const ProposalInfo = () => {
+  const [isOpenDeleteAlert, setIsOpenDeleteAlert] = useState(false);
   const { handleChangeNotification } = useNotificationContext();
   const { proposals } = useProposalsContext();
   const { id } = useParams<{ id: string }>();
@@ -18,7 +24,7 @@ export const ProposalInfo = () => {
 
   const proposal = proposals.find((item) => item._id === id);
 
-  if (!proposal) {
+  if (!proposal || !id) {
     return (
       <div>
         <BackButtonWithIcon onClick={handleBackButtonClick} />
@@ -27,8 +33,34 @@ export const ProposalInfo = () => {
     );
   }
 
+  const proposalDeleteMutation = useMutation({
+    mutationFn: (id: string) => deleteVacationProposal(id),
+    onSuccess: async () => {
+      const message = {
+        text: 'Wniosek został anulowany',
+      };
+      handleChangeNotification(message);
+      navigate('/proposals');
+    },
+    onError: () => {
+      const message: TNotification = {
+        text: 'Nie udało się anulować wniosku. Skontaktuj się z administratorem.',
+        severity: 'error',
+      };
+      handleChangeNotification(message);
+    },
+  });
+
+  const handleDeleteProposal = () => {
+    proposalDeleteMutation.mutate(id);
+  };
+
   const handleEditClick = () => {
-    handleChangeNotification({ text: 'edytuj', severity: 'success', variant: 'filled' });
+    navigate(`/proposals/${id}/edit`);
+  };
+
+  const handleDeleteClick = () => {
+    setIsOpenDeleteAlert(true);
   };
 
   const { color, fullTitle } = getProposalStatus(proposal?.status);
@@ -40,6 +72,17 @@ export const ProposalInfo = () => {
 
   return (
     <div>
+      {isOpenDeleteAlert && (
+        <BooleanAlert
+          acceptText='usuń'
+          color='error'
+          content='Czy napewno chcesz usunąć wniosek?'
+          open={isOpenDeleteAlert}
+          setOpen={setIsOpenDeleteAlert}
+          title='Usunięcie wniosku'
+          onAccept={handleDeleteProposal}
+        />
+      )}
       <BackButtonWithIcon onClick={handleBackButtonClick} />
       <div className={style.proposalInfoContainer}>
         <ProposalInfoProperty
@@ -53,7 +96,12 @@ export const ProposalInfo = () => {
         <ProposalInfoProperty label='Złożony' value={createdAt} />
       </div>
       <div className={style.proposalInfoButtonsContainer}>
-        <Button color='error' disabled={!isDeletable} variant='contained'>
+        <Button
+          color='error'
+          disabled={!isDeletable}
+          variant='contained'
+          onClick={handleDeleteClick}
+        >
           Anuluj wniosek
         </Button>
         <Button

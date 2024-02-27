@@ -52,7 +52,7 @@ export const deleteVacationProposal = async (id: string) => {
   }
 };
 
-export const updateVacationProposal = async (id: string, update: unknown) => {
+export const updateVacationProposal = async (id: string, update: ProposalCreateValues) => {
   try {
     const url = `/proposals/${id}`;
     const { data } = await axiosInstance.patch(url, update);

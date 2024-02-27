@@ -61,3 +61,10 @@ export type TProposal = {
   status: vacationsProposalsStatusTypes;
   description?: string;
 };
+
+export type TNotification = {
+  text: string;
+  severity?: 'success' | 'info' | 'warning' | 'error';
+  variant?: 'filled' | 'outlined';
+  hideDuration?: number;
+};

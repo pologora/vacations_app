@@ -1,13 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { getSafeContext } from './getSafeContext';
-
-type TNotification = {
-  text: string;
-  severity?: 'success' | 'info' | 'warning' | 'error';
-  variant?: 'filled' | 'outlined';
-  hideDuration?: number;
-};
+import { TNotification } from '../types/customTypes';
 
 type NotificationContextProps = {
   setTimeoutDuration: (time: number) => void;

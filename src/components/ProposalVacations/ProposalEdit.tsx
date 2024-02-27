@@ -1,11 +1,11 @@
 import { Button, MenuItem, Typography } from '@mui/material';
-import { useUserContext } from '../../contexts/userContext';
 import { vacationsTypes } from '../../setup/constants';
 import { pl } from 'date-fns/locale';
 import { Form, Formik } from 'formik';
 import FormInput from '../ui/FormElements/FormInput';
 import { useNavigate, useParams } from 'react-router-dom';
 import proposalValidationSchema, {
+  ProposalCreateValues,
   ProposalsFormValues,
 } from '../../yupValidationSchemas/proposalValidationSchema';
 import { FormSelect } from '../ui/FormElements/FormSelect';
@@ -13,9 +13,13 @@ import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import calculateVacationDuration from '../../helpers/calculateVacationDuration';
 import style from './ProposalVacations.module.css';
-import { createVacationProposal } from '../../Api/proposalServices';
+import { updateVacationProposal } from '../../Api/proposalServices';
 import { convertTimePickerDateToIsoString } from '../../helpers/convertTimePickerDateToIsoString';
 import { useNotificationContext } from '../../contexts/notificationContext';
+import { useProposalsContext } from '../../contexts/proposalsContext';
+import { BackButtonWithIcon } from '../ui/Buttons/BackButtonWithIcon';
+import { useMutation } from '@tanstack/react-query';
+import { TNotification, vacationsProposalsStatusTypes } from '../../types/customTypes';
 
 const firstDayOfTheWeek = 0;
 const lastDayOfTheWeek = 6;
@@ -34,26 +38,29 @@ const vacationsTypesList = vacationsTypes.map((item) => (
 ));
 
 const EditProposal = () => {
-  const { id } = useParams();
+  const { proposals } = useProposalsContext();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user } = useUserContext();
-  const navigator = useNavigate();
   const { handleChangeNotification } = useNotificationContext();
 
-  if (!user) {
-    navigator('/signin');
+  const navigateBackIndex = -1;
+  const handleBackButtonClick = () => navigate(navigateBackIndex);
+
+  const proposal = proposals.find((item) => item._id === id);
+
+  if (!proposal || !id) {
+    return (
+      <div>
+        <BackButtonWithIcon onClick={handleBackButtonClick} />
+        <Typography color={'red'}>Coś poszło nie tak</Typography>
+      </div>
+    );
   }
 
   const initialValues: ProposalsFormValues = {
-    name: user!.name,
-    surname: user!.surname,
-    duration: 0,
-    employeeId: user!.employeeId,
-    type: '',
-    status: 'pending',
-    startVacation: new Date(),
-    endVacation: new Date(),
-    description: '',
+    ...proposal,
+    startVacation: new Date(proposal.startVacation),
+    endVacation: new Date(proposal.endVacation),
   };
 
   const handleBackClick = () => {
@@ -61,19 +68,42 @@ const EditProposal = () => {
     navigate(-1);
   };
 
-  const createProposal = async (values: ProposalsFormValues) => {
+  const proposalUpdateMutation = useMutation({
+    mutationFn: (values: ProposalCreateValues) => updateVacationProposal(id, values),
+    onSuccess: async () => {
+      const message = {
+        text: 'Wniosek został złożony',
+      };
+      handleChangeNotification(message);
+      navigate('/proposals');
+    },
+    onError: () => {
+      const message: TNotification = {
+        text: 'Nie udało się złożyć wniosku. Skontaktuj się z administratorem',
+        severity: 'error',
+      };
+      handleChangeNotification(message);
+    },
+  });
+
+  const updateProposal = async (values: ProposalsFormValues) => {
     const { endVacation, startVacation } = values;
     const endVacationConverted = convertTimePickerDateToIsoString(endVacation);
     const startVacationConverted = convertTimePickerDateToIsoString(startVacation);
+
+    const status: vacationsProposalsStatusTypes = 'pending';
 
     const dataForPostRequest = {
       ...values,
       endVacation: endVacationConverted,
       startVacation: startVacationConverted,
+      status: status,
     };
+    proposalUpdateMutation.mutate(dataForPostRequest);
+  };
 
-    const result = await createVacationProposal(dataForPostRequest);
-    return result;
+  const handleAcceptClick = (values: ProposalsFormValues) => {
+    updateProposal(values);
   };
 
   return (
@@ -82,10 +112,7 @@ const EditProposal = () => {
         initialValues={initialValues}
         validationSchema={proposalValidationSchema}
         onSubmit={async (values, helpers) => {
-          const result = await createProposal(values);
-          if (result.status === 'success') {
-            handleChangeNotification({ text: 'Wniosek został złożony' });
-          }
+          await updateProposal(values);
           helpers.resetForm();
         }}
       >
@@ -129,7 +156,7 @@ const EditProposal = () => {
                 <Button sx={{ marginLeft: '1rem' }} variant='outlined' onClick={handleBackClick}>
                   Wstecz
                 </Button>
-                <Button type='submit' variant='contained'>
+                <Button type='submit' variant='contained' onClick={() => handleAcceptClick(values)}>
                   Wyślij wniosek
                 </Button>
               </div>
