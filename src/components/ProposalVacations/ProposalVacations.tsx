@@ -44,7 +44,9 @@ export const ProposalVacations = () => {
 
   const itemsPerPage = 25;
   const minPage = 1;
-  const pagesCount = Math.floor((data?.data.length || minPage) / itemsPerPage) || minPage;
+  const vacationsSize = data?.vacationsSize;
+
+  const pagesCount = Math.ceil((vacationsSize || minPage) / itemsPerPage) || minPage;
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);

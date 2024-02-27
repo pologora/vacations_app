@@ -13,6 +13,7 @@ import CreateProposalVacation from './components/ProposalVacations/CreateProposa
 import { ProposalInfo } from './components/ProposalVacations/ProposalInfo';
 import { ForgotPassword } from './components/ForgotPassword/ForgotPassword';
 import { NotificationAlert } from './components/NotificationAlert/NotificationAlert';
+import EditProposal from './components/ProposalVacations/ProposalEdit';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           <Route element={<ProposalVacations />} path='/proposals' />
           <Route element={<CreateProposalVacation />} path='/proposals/create' />
           <Route element={<ProposalInfo />} path='/proposals/:id' />
+          <Route element={<EditProposal />} path='/proposals/:id/edit' />
         </Route>
         <Route element={<SignUp />} path='/signup/:token' />
         <Route element={<SignIn />} path='/signin' />

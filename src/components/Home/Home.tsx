@@ -60,21 +60,21 @@ export const Home = () => {
 
     return <div>{vacationsError?.message || proposalError?.message}</div>;
   }
-  const allVacationsDuration = vacationsData?.data.reduce((acc, item) => {
-    if (item.type === 'Wypoczynkowy') {
-      return acc + item.duration;
-    }
-    return acc;
-    // eslint-disable-next-line no-magic-numbers
-  }, 0);
+  // const allVacationsDuration = vacationsData?.data.reduce((acc, item) => {
+  //   if (item.type === 'Wypoczynkowy') {
+  //     return acc + item.duration;
+  //   }
+  //   return acc;
+  //   // eslint-disable-next-line no-magic-numbers
+  // }, 0);
 
-  const allProposalsDuration = proposalsData?.data.reduce((acc, item) => {
-    if (item.type === 'Wypoczynkowy') {
-      return acc + item.duration;
-    }
-    return acc;
-    // eslint-disable-next-line no-magic-numbers
-  }, 0);
+  // const allProposalsDuration = proposalsData?.data.reduce((acc, item) => {
+  //   if (item.type === 'Wypoczynkowy') {
+  //     return acc + item.duration;
+  //   }
+  //   return acc;
+  //   // eslint-disable-next-line no-magic-numbers
+  // }, 0);
 
   return (
     <div className={style.container}>

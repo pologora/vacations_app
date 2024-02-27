@@ -15,6 +15,7 @@ import calculateVacationDuration from '../../helpers/calculateVacationDuration';
 import style from './ProposalVacations.module.css';
 import { createVacationProposal } from '../../Api/proposalServices';
 import { convertTimePickerDateToIsoString } from '../../helpers/convertTimePickerDateToIsoString';
+import { useNotificationContext } from '../../contexts/notificationContext';
 
 const firstDayOfTheWeek = 0;
 const lastDayOfTheWeek = 6;
@@ -36,6 +37,7 @@ const CreateProposalVacation = () => {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const navigator = useNavigate();
+  const { handleChangeNotification } = useNotificationContext();
 
   if (!user) {
     navigator('/signin');
@@ -81,7 +83,7 @@ const CreateProposalVacation = () => {
         onSubmit={async (values, helpers) => {
           const result = await createProposal(values);
           if (result.status === 'success') {
-            console.log(result, 'create alert');
+            handleChangeNotification({ text: 'Wniosek został złożony' });
           }
           helpers.resetForm();
         }}

@@ -6,6 +6,7 @@ import { ProposalCreateValues } from '../yupValidationSchemas/proposalValidation
 type AllProposalsReturn = {
   status: string;
   data: TProposal[];
+  vacationsSize: number;
 };
 
 type CreateVacationProposalReturn = {
@@ -51,7 +52,7 @@ export const deleteVacationProposal = async (id: string) => {
   }
 };
 
-export const updateVacationProposal = async (id: string, update) => {
+export const updateVacationProposal = async (id: string, update: unknown) => {
   try {
     const url = `/proposals/${id}`;
     const { data } = await axiosInstance.patch(url, update);
