@@ -3,6 +3,7 @@ import axiosInstance from '../setup/axiosInstance';
 import { TUser } from '../types/customTypes';
 import { ChangePasswordFormValues } from '../yupValidationSchemas/changePasswordShema';
 import { ForgetPasswordFormValues } from '../yupValidationSchemas/forgetPasswordShema';
+import { ResetPasswordFormValues } from '../yupValidationSchemas/resetPasswordShema';
 
 type LoginDataReturn = {
   status: string;
@@ -54,6 +55,22 @@ export const forgotPassword = async (
   try {
     const url = `/users/forgotPassword`;
     const { data } = await axiosInstance.post(url, values);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const resetPassword = async (
+  values: ResetPasswordFormValues,
+  token: string,
+): Promise<ForgotPasswordDataReturn> => {
+  try {
+    const url = `/users/resetPassword/${token}`;
+    const { data } = await axiosInstance.post(url, values);
+    console.log(data);
+
     return data;
   } catch (error) {
     console.log(error);

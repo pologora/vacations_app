@@ -1,5 +1,7 @@
 import { Form, Formik } from 'formik';
-import singInValidationSchema from '../../../yupValidationSchemas/signInValidationSchema';
+import singInValidationSchema, {
+  SignInFormValues,
+} from '../../../yupValidationSchemas/signInValidationSchema';
 import FormInput from '../../ui/FormElements/FormInput';
 import { Loading } from '../../Loading/Loading';
 import { Button, Typography } from '@mui/material';
@@ -8,6 +10,9 @@ import style from './SignIn.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../../Api/authServices';
 import { useUserContext } from '../../../contexts/userContext';
+import { getAxiosErrorMessage } from '../../../helpers/errors/axiosErrors';
+import { useNotificationContext } from '../../../contexts/notificationContext';
+import { useMutation } from '@tanstack/react-query';
 
 const initialValues = {
   email: '',
@@ -18,18 +23,39 @@ export const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { signIn } = useUserContext();
   const navigate = useNavigate();
+  const { handleChangeNotification } = useNotificationContext();
+
+  const loginMutation = useMutation({
+    mutationFn: async (values: SignInFormValues) => {
+      return await login(values.email, values.password);
+    },
+    onError: (error) => {
+      const message = getAxiosErrorMessage(error);
+      handleChangeNotification({
+        text: message,
+        severity: 'error',
+      });
+    },
+    onSuccess: ({ data }) => {
+      handleChangeNotification({
+        text: 'Załogowałeś się',
+        severity: 'success',
+      });
+      signIn(data);
+      navigate('/');
+    },
+  });
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={singInValidationSchema}
-      onSubmit={async ({ email, password }) => {
-        setIsLoading(true);
-        const { data } = await login(email, password);
-        if (data) {
-          signIn(data);
-          navigate('/');
+      onSubmit={async (values) => {
+        try {
+          setIsLoading(true);
+          loginMutation.mutate(values);
+        } finally {
+          setIsLoading(false);
         }
-        setIsLoading(false);
       }}
     >
       <div className={style.container}>

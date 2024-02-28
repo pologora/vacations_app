@@ -18,10 +18,14 @@ export type UserSignupData = {
 };
 
 export type TEmployee = {
+  _id: string;
   name: string;
   surname: string;
   email: string;
-  employeeId: string;
+  pin: number;
+  vacationDaysPerYear: number;
+  agency?: string;
+  userId: string;
 };
 
 export type TVacation = {

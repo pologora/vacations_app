@@ -10,6 +10,7 @@ import sinupValidationSchema, {
 } from '../../../yupValidationSchemas/signUpValidationSchema';
 import { Button } from '@mui/material';
 import { signUp } from '../../../Api/authServices';
+import { useNotificationContext } from '../../../contexts/notificationContext';
 
 const initialValues: SignUpFormValidation = { password: '', confirmPassword: '' };
 
@@ -18,6 +19,7 @@ export const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { handleChangeNotification } = useNotificationContext();
 
   const navigateToLoginPage = () => navigate('/signin');
 
@@ -25,6 +27,7 @@ export const SignUp = () => {
     try {
       setIsLoading(true);
       await signUp(token, password, confirmPassword);
+      handleChangeNotification({ text: 'Rejestracja zakończyła się powodzeniem' });
       const timeout = 1500;
       setTimeout(() => {
         navigateToLoginPage();
@@ -65,8 +68,18 @@ export const SignUp = () => {
           }}
         >
           <Form>
-            <FormInput label='Podaj hasło' name='password' type='password' />
-            <FormInput label='Potwierdź hasło' name='confirmPassword' type='password' />
+            <FormInput
+              autoComplete='new-password'
+              label='Podaj hasło'
+              name='password'
+              type='password'
+            />
+            <FormInput
+              autoComplete='new-password'
+              label='Potwierdź hasło'
+              name='confirmPassword'
+              type='password'
+            />
             <div className={style.buttonContainer}>
               <Button type='submit' variant='contained'>
                 Zarejestruj się

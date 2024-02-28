@@ -3,6 +3,7 @@ import { UserContextProvider } from '../../contexts/userContext';
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ProposalsContextProvider } from '../../contexts/proposalsContext';
 import NotificationContextProvider from '../../contexts/notificationContext';
+import { EmployeeContextProvider } from '../../contexts/employeeContext';
 
 type ContextGlobalWrapperProps = {
   children: React.ReactNode;
@@ -19,7 +20,9 @@ export const ContextGlobalWrapper = ({ children }: ContextGlobalWrapperProps) =>
         <QueryClientProvider client={queryClient}>
           <ProposalsContextProvider>
             <NotificationContextProvider>
-              <UserContextProvider>{children}</UserContextProvider>
+              <EmployeeContextProvider>
+                <UserContextProvider>{children}</UserContextProvider>
+              </EmployeeContextProvider>
             </NotificationContextProvider>
           </ProposalsContextProvider>
         </QueryClientProvider>

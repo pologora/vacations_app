@@ -98,6 +98,7 @@ const EditProposal = () => {
       endVacation: endVacationConverted,
       startVacation: startVacationConverted,
       status: status,
+      created_at: true,
     };
     proposalUpdateMutation.mutate(dataForPostRequest);
   };

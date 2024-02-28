@@ -8,10 +8,16 @@ import { Calendar } from '../Calendar/Calendar';
 import type { CalendarEvent } from '../../types/customTypes';
 import { createCalendarVacationsEvents } from '../../helpers/createCalendarVacationsEvents';
 import { getAllProposalsByEmployeeId } from '../../Api/proposalServices';
+import { getEmployeeById } from '../../Api/employeeServices';
+import { useEmployeeContext } from '../../contexts/employeeContext';
+import { useNotificationContext } from '../../contexts/notificationContext';
+import { Typography } from '@mui/material';
 
 export const Home = () => {
   const { user, signOut } = useUserContext();
   const [eventsList, setEventsList] = useState<CalendarEvent[]>([]);
+  const { employee, saveEmployee } = useEmployeeContext();
+  const { handleChangeNotification } = useNotificationContext();
 
   const {
     data: vacationsData,
@@ -41,6 +47,17 @@ export const Home = () => {
     queryKey: ['proposals', user!.employeeId],
   });
 
+  const {
+    data: employeeData,
+    isLoading: employeeIsLoading,
+    isError: employeeIsError,
+  } = useQuery({
+    queryFn: () => {
+      if (user) return getEmployeeById(user.employeeId);
+    },
+    queryKey: ['employee'],
+  });
+
   useEffect(() => {
     if (vacationsData) {
       const events = createCalendarVacationsEvents(vacationsData.data, proposalsData?.data);
@@ -48,11 +65,21 @@ export const Home = () => {
     }
   }, [vacationsData, proposalsData]);
 
-  if (vacationsIsLoading || proposalIsLoading) {
+  useEffect(() => {
+    if (employeeData) {
+      saveEmployee(employeeData.data);
+    }
+  }, [employeeData]);
+
+  if (vacationsIsLoading || proposalIsLoading || employeeIsLoading) {
     return <Loading />;
   }
 
-  if (vacationsIsError || proposalIsError) {
+  if (vacationsIsError || proposalIsError || employeeIsError) {
+    handleChangeNotification({
+      text: 'Coś poszło nie tak. Spróbuj załogować się ponownie.',
+      severity: 'error',
+    });
     const timeout = 2000;
     setTimeout(() => {
       signOut();
@@ -60,24 +87,30 @@ export const Home = () => {
 
     return <div>{vacationsError?.message || proposalError?.message}</div>;
   }
-  // const allVacationsDuration = vacationsData?.data.reduce((acc, item) => {
-  //   if (item.type === 'Wypoczynkowy') {
-  //     return acc + item.duration;
-  //   }
-  //   return acc;
-  //   // eslint-disable-next-line no-magic-numbers
-  // }, 0);
+  const allVacationsDuration = vacationsData?.data.reduce((acc, item) => {
+    if (item.type === 'Wypoczynkowy') {
+      return acc + item.duration;
+    }
+    return acc;
+    // eslint-disable-next-line no-magic-numbers
+  }, 0);
 
-  // const allProposalsDuration = proposalsData?.data.reduce((acc, item) => {
-  //   if (item.type === 'Wypoczynkowy') {
-  //     return acc + item.duration;
-  //   }
-  //   return acc;
-  //   // eslint-disable-next-line no-magic-numbers
-  // }, 0);
+  const allProposalsDuration = proposalsData?.data.reduce((acc, item) => {
+    if (item.type === 'Wypoczynkowy') {
+      return acc + item.duration;
+    }
+    return acc;
+    // eslint-disable-next-line no-magic-numbers
+  }, 0);
 
   return (
     <div className={style.container}>
+      <h2>{`${employee?.name} ${employee?.surname}`}</h2>
+      <Typography>
+        Liczba przysługujących dni urlopu wypoczynkowego: {employee?.vacationDaysPerYear}
+      </Typography>
+      <Typography>Potwierdzone dni: {allVacationsDuration}</Typography>
+      <Typography>Oczekujące na potwierdzenie: {allProposalsDuration}</Typography>
       {vacationsData && <Calendar calendarEventsList={eventsList} />}
     </div>
   );
