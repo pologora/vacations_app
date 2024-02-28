@@ -20,6 +20,8 @@ type CreateVacationProposalReturn = {
 export const getAllProposalsByEmployeeId = async (url: string): Promise<AllProposalsReturn> => {
   try {
     const { data } = await axiosInstance.get(url);
+    console.log(url);
+
     return data;
   } catch (error) {
     console.log(error);

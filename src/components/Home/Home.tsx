@@ -46,7 +46,7 @@ export const Home = () => {
     queryFn: () => {
       if (user) {
         const id = user.employeeId;
-        const url = `/proposals?employeId=${id}&thisYear=true&status=pending`;
+        const url = `/proposals?employeeId=${id}&thisYear=true&status=pending`;
         return getAllProposalsByEmployeeId(url);
       }
     },

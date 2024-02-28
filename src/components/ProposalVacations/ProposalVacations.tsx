@@ -19,7 +19,7 @@ export const ProposalVacations = () => {
     queryFn: () => {
       if (user) {
         const id = user.employeeId;
-        const url = `/proposals?employeId=${id}&page=${page}`;
+        const url = `/proposals?employeeId=${id}&page=${page}`;
 
         return getAllProposalsByEmployeeId(url);
       }
