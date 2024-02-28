@@ -24,9 +24,9 @@ export const EmployeeContextProvider = ({ children }: EmployeeContextProviderPro
 
   useEffect(() => {
     if (employee) {
-      Cookies.set('user', JSON.stringify(employee), { expires: 365 });
+      Cookies.set('employee', JSON.stringify(employee), { expires: 365 });
     } else {
-      Cookies.remove('user');
+      Cookies.remove('employee');
     }
   }, [employee]);
 
@@ -37,4 +37,4 @@ export const EmployeeContextProvider = ({ children }: EmployeeContextProviderPro
   );
 };
 
-export const useEmployeeContext = getSafeContext(EmployeeContext, 'Proposals context');
+export const useEmployeeContext = getSafeContext(EmployeeContext, 'Employee context');

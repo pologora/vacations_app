@@ -68,8 +68,7 @@ export const resetPassword = async (
 ): Promise<ForgotPasswordDataReturn> => {
   try {
     const url = `/users/resetPassword/${token}`;
-    const { data } = await axiosInstance.post(url, values);
-    console.log(data);
+    const { data } = await axiosInstance.patch(url, values);
 
     return data;
   } catch (error) {

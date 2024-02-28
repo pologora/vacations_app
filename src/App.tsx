@@ -14,6 +14,7 @@ import { ProposalInfo } from './components/ProposalVacations/ProposalInfo';
 import { ForgotPassword } from './components/ForgotPassword/ForgotPassword';
 import { NotificationAlert } from './components/NotificationAlert/NotificationAlert';
 import EditProposal from './components/ProposalVacations/ProposalEdit';
+import { ResetPassword } from './components/ResetPassword/ResetPassword';
 
 const App = () => {
   return (
@@ -38,7 +39,7 @@ const App = () => {
         <Route element={<SignUp />} path='/signup/:token' />
         <Route element={<SignIn />} path='/signin' />
         <Route element={<ForgotPassword />} path='/forgotPassword' />
-        <Route element={<ForgotPassword />} path='/resetPassword/:token' />
+        <Route element={<ResetPassword />} path='/resetPassword/:token' />
         <Route element={<NotFound />} path='*' />
       </Routes>
     </>

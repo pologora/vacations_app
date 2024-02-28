@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getAxiosErrorMessage } from '../../helpers/errors/axiosErrors';
 import { resetPassword } from '../../Api/authServices';
 import { useMutation } from '@tanstack/react-query';
@@ -18,7 +18,7 @@ const initialValues = {
 
 export const ResetPassword = () => {
   const { token } = useParams();
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   if (!token) {
     return <div className='error'>Coś poszło nie tak</div>;
@@ -42,7 +42,7 @@ export const ResetPassword = () => {
         text: 'Hasło zostało zmienione, możesz się załogować',
         severity: 'success',
       });
-      //   navigate('/login');
+      navigate('/signin');
     },
   });
 
@@ -51,31 +51,33 @@ export const ResetPassword = () => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={resetPasswordValidationSchema}
-      onSubmit={(values: ResetPasswordFormValues, helpers) => {
-        handleResetPassword(values);
-        helpers.resetForm();
-      }}
-    >
-      <Form className={style.resetPasswordForm}>
-        <FormInput autoComplete='new-password' label='Hasło' name='password' type='password' />
-        <FormInput
-          autoComplete='new-password'
-          label='Potwierdź hasło'
-          name='confirmPassword'
-          type='password'
-        />
-        <Button
-          color='info'
-          sx={{ marginTop: '1rem', textAlign: 'right' }}
-          type='submit'
-          variant='contained'
-        >
-          Zmień hasło
-        </Button>
-      </Form>
-    </Formik>
+    <div className={style.container}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={resetPasswordValidationSchema}
+        onSubmit={(values: ResetPasswordFormValues, helpers) => {
+          handleResetPassword(values);
+          helpers.resetForm();
+        }}
+      >
+        <Form className={style.resetPasswordForm}>
+          <FormInput autoComplete='new-password' label='Hasło' name='password' type='password' />
+          <FormInput
+            autoComplete='new-password'
+            label='Potwierdź hasło'
+            name='confirmPassword'
+            type='password'
+          />
+          <Button
+            color='info'
+            sx={{ marginTop: '1rem', textAlign: 'right' }}
+            type='submit'
+            variant='contained'
+          >
+            Zmień hasło
+          </Button>
+        </Form>
+      </Formik>
+    </div>
   );
 };

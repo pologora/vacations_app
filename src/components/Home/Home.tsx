@@ -12,12 +12,18 @@ import { getEmployeeById } from '../../Api/employeeServices';
 import { useEmployeeContext } from '../../contexts/employeeContext';
 import { useNotificationContext } from '../../contexts/notificationContext';
 import { Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
   const { user, signOut } = useUserContext();
   const [eventsList, setEventsList] = useState<CalendarEvent[]>([]);
   const { employee, saveEmployee } = useEmployeeContext();
   const { handleChangeNotification } = useNotificationContext();
+  const navigate = useNavigate();
+
+  if (!user) {
+    navigate('/signin');
+  }
 
   const {
     data: vacationsData,

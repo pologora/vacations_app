@@ -8,6 +8,8 @@ type GetEmployeeByIdReturnValue = {
 };
 
 export const getEmployeeById = async (id: string): Promise<GetEmployeeByIdReturnValue> => {
+  console.log(id);
+
   const url = `/employees/${id}`;
   try {
     const { data } = await axiosInstance.get(url);

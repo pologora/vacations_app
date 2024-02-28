@@ -32,7 +32,7 @@ export const ForgotPassword = () => {
             await forgotPassword(values);
             handleChangeNotification(succesMessage);
             helpers.resetForm();
-            navigate('/login');
+            navigate('/signin');
           } catch (error) {
             // @ts-expect-error errors
             const message = error?.response?.data?.message || 'Coś poszło nie tak';

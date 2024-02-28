@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { changePassword } from '../../Api/authServices';
 import { useNotificationContext } from '../../contexts/notificationContext';
 import { getAxiosErrorMessage } from '../../helpers/errors/axiosErrors';
+import { useEmployeeContext } from '../../contexts/employeeContext';
 
 const initialValues: ChangePasswordFormValues = {
   currentPassword: '',
@@ -20,6 +21,7 @@ const initialValues: ChangePasswordFormValues = {
 
 export const Account = () => {
   const { user } = useUserContext();
+  const { employee } = useEmployeeContext();
   const { handleChangeNotification } = useNotificationContext();
 
   const changePasswordMutation = useMutation({
@@ -54,7 +56,9 @@ export const Account = () => {
         <ProposalInfoProperty
           label='Urlop wypoczynkowy'
           value={
-            user?.vacationDaysPerYear ? `${user?.vacationDaysPerYear?.toString()} dni` : undefined
+            employee?.vacationDaysPerYear
+              ? `${employee?.vacationDaysPerYear?.toString()} dni`
+              : undefined
           }
         />
       </div>
