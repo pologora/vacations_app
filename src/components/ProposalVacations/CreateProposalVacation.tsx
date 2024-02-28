@@ -16,6 +16,7 @@ import style from './ProposalVacations.module.css';
 import { createVacationProposal } from '../../Api/proposalServices';
 import { convertTimePickerDateToIsoString } from '../../helpers/convertTimePickerDateToIsoString';
 import { useNotificationContext } from '../../contexts/notificationContext';
+import { getAxiosErrorMessage } from '../../helpers/errors/axiosErrors';
 
 const firstDayOfTheWeek = 0;
 const lastDayOfTheWeek = 6;
@@ -70,9 +71,15 @@ const CreateProposalVacation = () => {
       endVacation: endVacationConverted,
       startVacation: startVacationConverted,
     };
-
-    const result = await createVacationProposal(dataForPostRequest);
-    return result;
+    try {
+      const result = await createVacationProposal(dataForPostRequest);
+      handleChangeNotification({ text: 'Wniosek został złożony' });
+      return result;
+    } catch (error) {
+      //@ts-expect-error error
+      const message = getAxiosErrorMessage(error);
+      handleChangeNotification({ text: message, severity: 'error' });
+    }
   };
 
   return (
@@ -81,10 +88,7 @@ const CreateProposalVacation = () => {
         initialValues={initialValues}
         validationSchema={proposalValidationSchema}
         onSubmit={async (values, helpers) => {
-          const result = await createProposal(values);
-          if (result.status === 'success') {
-            handleChangeNotification({ text: 'Wniosek został złożony' });
-          }
+          await createProposal(values);
           helpers.resetForm();
         }}
       >
