@@ -1,5 +1,5 @@
 import { Alert, Snackbar } from '@mui/material';
-import { useNotificationContext } from '../../contexts/notificationContext';
+import { useNotificationContext } from '../../contexts/NotificationContext';
 
 export const NotificationAlert = () => {
   const { isOpen, notification } = useNotificationContext();

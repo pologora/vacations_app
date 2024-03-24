@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAxiosErrorMessage } from '../../helpers/errors/axiosErrors';
 import { resetPassword } from '../../Api/authServices';
 import { useMutation } from '@tanstack/react-query';
-import { useNotificationContext } from '../../contexts/notificationContext';
+import { useNotificationContext } from '../../contexts/NotificationContext';
 import resetPasswordValidationSchema, {
   ResetPasswordFormValues,
 } from '../../yupValidationSchemas/resetPasswordShema';

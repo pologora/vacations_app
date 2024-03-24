@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { useUserContext } from '../../contexts/userContext';
+import { useUserContext } from '../../contexts/UserContext';
 
 export const LogOutButton = () => {
   const { signOut } = useUserContext();

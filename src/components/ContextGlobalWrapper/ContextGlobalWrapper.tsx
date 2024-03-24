@@ -1,9 +1,9 @@
 import { BrowserRouter } from 'react-router-dom';
-import { UserContextProvider } from '../../contexts/userContext';
+import { UserContextProvider } from '../../contexts/UserContext';
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ProposalsContextProvider } from '../../contexts/proposalsContext';
-import NotificationContextProvider from '../../contexts/notificationContext';
-import { EmployeeContextProvider } from '../../contexts/employeeContext';
+import { ProposalsContextProvider } from '../../contexts/ProposalsContext';
+import NotificationContextProvider from '../../contexts/NotificationContext';
+import { EmployeeContextProvider } from '../../contexts/EmployeeContext';
 
 type ContextGlobalWrapperProps = {
   children: React.ReactNode;

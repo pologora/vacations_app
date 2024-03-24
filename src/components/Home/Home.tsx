@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllVacationsByEmployeeId } from '../../Api/vacationServices';
-import { useUserContext } from '../../contexts/userContext';
+import { useUserContext } from '../../contexts/UserContext';
 import style from './Home.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { Loading } from '../Loading/Loading';
@@ -9,8 +9,8 @@ import type { CalendarEvent } from '../../types/customTypes';
 import { createCalendarVacationsEvents } from '../../helpers/createCalendarVacationsEvents';
 import { getAllProposalsByEmployeeId } from '../../Api/proposalServices';
 import { getEmployeeById } from '../../Api/employeeServices';
-import { useEmployeeContext } from '../../contexts/employeeContext';
-import { useNotificationContext } from '../../contexts/notificationContext';
+import { useEmployeeContext } from '../../contexts/EmployeeContext';
+import { useNotificationContext } from '../../contexts/NotificationContext';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 

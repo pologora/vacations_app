@@ -12,7 +12,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { useUserContext } from '../../contexts/userContext';
+import { useUserContext } from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../Logo/Logo';
 import { blue } from '@mui/material/colors';

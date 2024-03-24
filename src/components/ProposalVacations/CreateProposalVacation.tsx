@@ -1,5 +1,5 @@
 import { Button, MenuItem, Typography } from '@mui/material';
-import { useUserContext } from '../../contexts/userContext';
+import { useUserContext } from '../../contexts/UserContext';
 import { vacationsTypes } from '../../setup/constants';
 import { pl } from 'date-fns/locale';
 import { Form, Formik } from 'formik';
@@ -15,7 +15,7 @@ import calculateVacationDuration from '../../helpers/calculateVacationDuration';
 import style from './ProposalVacations.module.css';
 import { createVacationProposal } from '../../Api/proposalServices';
 import { convertTimePickerDateToIsoString } from '../../helpers/convertTimePickerDateToIsoString';
-import { useNotificationContext } from '../../contexts/notificationContext';
+import { useNotificationContext } from '../../contexts/NotificationContext';
 import { getAxiosErrorMessage } from '../../helpers/errors/axiosErrors';
 
 const firstDayOfTheWeek = 0;

@@ -9,9 +9,9 @@ import { useState } from 'react';
 import style from './SignIn.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../../Api/authServices';
-import { useUserContext } from '../../../contexts/userContext';
+import { useUserContext } from '../../../contexts/UserContext';
 import { getAxiosErrorMessage } from '../../../helpers/errors/axiosErrors';
-import { useNotificationContext } from '../../../contexts/notificationContext';
+import { useNotificationContext } from '../../../contexts/NotificationContext';
 import { useMutation } from '@tanstack/react-query';
 
 const initialValues = {

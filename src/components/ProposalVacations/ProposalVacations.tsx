@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import { useUserContext } from '../../contexts/userContext';
+import { useUserContext } from '../../contexts/UserContext';
 import { getAllProposalsByEmployeeId } from '../../Api/proposalServices';
 import { Pagination } from '@mui/material';
 import { useEffect, useState } from 'react';
 import style from './ProposalVacations.module.css';
 import { Loading } from '../Loading/Loading';
 import { ProposalsList } from './ProposalsList';
-import { useProposalsContext } from '../../contexts/proposalsContext';
+import { useProposalsContext } from '../../contexts/ProposalsContext';
 
 const startPage = 1;
 

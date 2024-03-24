@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { useUserContext } from '../../contexts/userContext';
+import { useUserContext } from '../../contexts/UserContext';
 import style from './Account.module.css';
 import { Form, Formik } from 'formik';
 import FormInput from '../ui/FormElements/FormInput';
@@ -9,9 +9,9 @@ import changePasswordValidationSchema, {
 import { ProposalInfoProperty } from '../ProposalVacations/ProposalInfoProperty';
 import { useMutation } from '@tanstack/react-query';
 import { changePassword } from '../../Api/authServices';
-import { useNotificationContext } from '../../contexts/notificationContext';
+import { useNotificationContext } from '../../contexts/NotificationContext';
 import { getAxiosErrorMessage } from '../../helpers/errors/axiosErrors';
-import { useEmployeeContext } from '../../contexts/employeeContext';
+import { useEmployeeContext } from '../../contexts/EmployeeContext';
 
 const initialValues: ChangePasswordFormValues = {
   currentPassword: '',

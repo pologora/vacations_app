@@ -10,7 +10,7 @@ import sinupValidationSchema, {
 } from '../../../yupValidationSchemas/signUpValidationSchema';
 import { Button } from '@mui/material';
 import { signUp } from '../../../Api/authServices';
-import { useNotificationContext } from '../../../contexts/notificationContext';
+import { useNotificationContext } from '../../../contexts/NotificationContext';
 
 const initialValues: SignUpFormValidation = { password: '', confirmPassword: '' };
 

@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useProposalsContext } from '../../contexts/proposalsContext';
+import { useProposalsContext } from '../../contexts/ProposalsContext';
 import { Button, Typography } from '@mui/material';
 import { BackButtonWithIcon } from '../ui/Buttons/BackButtonWithIcon';
 import style from './ProposalVacations.module.css';
 import { ProposalInfoProperty } from './ProposalInfoProperty';
 import { getDayStringFromUtcFullDate, getProposalStatus } from './helpers/helplers';
-import { useNotificationContext } from '../../contexts/notificationContext';
+import { useNotificationContext } from '../../contexts/NotificationContext';
 import { useMutation } from '@tanstack/react-query';
 import { deleteVacationProposal } from '../../Api/proposalServices';
 import { TNotification } from '../../types/customTypes';

@@ -5,7 +5,7 @@ import forgetPasswordValidationSchema, {
 } from '../../yupValidationSchemas/forgetPasswordShema';
 import style from './ForgotPassword.module.css';
 import { Button } from '@mui/material';
-import { useNotificationContext } from '../../contexts/notificationContext';
+import { useNotificationContext } from '../../contexts/NotificationContext';
 import { forgotPassword } from '../../Api/authServices';
 import { TNotification } from '../../types/customTypes';
 import { useNavigate } from 'react-router-dom';
