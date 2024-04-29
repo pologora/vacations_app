@@ -45,6 +45,11 @@ export const SignIn = () => {
       navigate('/');
     },
   });
+
+  const handleDemoLogin = () => {
+    loginMutation.mutate({ email: 'mail@pracownik.ru', password: 'pass' });
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -76,9 +81,20 @@ export const SignIn = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <Button sx={{ marginTop: '2rem' }} type='submit' variant='contained'>
-              Zaloguj się
-            </Button>
+            <>
+              <Button sx={{ marginTop: '2rem' }} type='submit' variant='contained'>
+                Zaloguj się
+              </Button>
+              <br />
+              <Button
+                sx={{ marginTop: '2rem' }}
+                type='button'
+                variant='contained'
+                onClick={handleDemoLogin}
+              >
+                Demo
+              </Button>
+            </>
           )}
         </Form>
       </div>
